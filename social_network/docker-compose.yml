@@ -1,0 +1,22 @@
+version: '3.9'
+
+services:
+  db:
+    image: mongo:4.4
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: social_network
+
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+volumes:
+  mongo_data:
